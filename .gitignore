@@ -97,3 +97,13 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# macOS Finder junk
+.DS_Store
+
+# Unity Plastic SCM (local version control data)
+.plastic/
+ignore.conf
+
+# Shader Graph / Render Pipeline local cache files
+ProjectSettings/ShaderGraphSettings.asset
