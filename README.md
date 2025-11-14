@@ -7,7 +7,7 @@ set the working directory to the directory you have cloned the repo in. This sho
 the Unity workspace.
 Let me know if you any of this doesn't make sense and I'll do my best to help.
 
-This is how you should push to the repo after making changes in Unity (though I have not tested this with anyone yet)
+**This is how you should push to the repo after making changes in Unity (though I have not tested this with anyone yet)**
 
 git add Assets ProjectSettings Packages    <-- NOTE. Make sure you use this format and not git add . as we don't want every file
 
@@ -15,6 +15,8 @@ git commit -m "Describe what changed (e.g. updated enemy AI, new scene)"
 
 git push origin main
 
+**Pull instructions**
+git pull origin main
 
 If you run into any issues, let me know
 - Ethan
