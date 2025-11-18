@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DefaultRunner : MonoBehaviour
 {
+    // GITHUB PLEASE WHY
     [SerializeField] private Transform TaggerAgent;
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float noiseStrength = 0.3f;
@@ -86,19 +87,5 @@ public class DefaultRunner : MonoBehaviour
         // I want to visualise the detection range, for my own knowledge 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
-        
-        // Draw spawn area bounds
-        Gizmos.color = Color.green;
-        Vector3 center = new Vector3(
-            (spawnAreaMin.x + spawnAreaMax.x) / 2f,
-            spawnHeight,
-            (spawnAreaMin.y + spawnAreaMax.y) / 2f
-        );
-        Vector3 size = new Vector3(
-            spawnAreaMax.x - spawnAreaMin.x,
-            0.1f,
-            spawnAreaMax.y - spawnAreaMin.y
-        );
-        Gizmos.DrawWireCube(center, size);
     }
 }
