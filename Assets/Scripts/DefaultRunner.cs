@@ -9,18 +9,20 @@ public class DefaultRunner : MonoBehaviour
     private Vector3 noiseDirection;
     private float noiseTimer;
     private float noiseChangeInterval = 0.5f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private Vector2 spawnAreaMin = new Vector2(-4f, -4f); // x, z
+    [SerializeField] private Vector2 spawnAreaMax = new Vector2(4f, 4f);   // x, z
+    [SerializeField] private float spawnHeight = 1.3f; // y
+
     void Start()
     {
-        UpdateNoiseDirection(); // Init noise direction
+        SpawnAtRandomPosition();
+        UpdateNoiseDirection();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (TaggerAgent == null)
         {
-            Debug.LogWarning("DefaultRunner: Target (TaggerAgent) is not assigned!");
             return;
         }
 
@@ -32,25 +34,41 @@ public class DefaultRunner : MonoBehaviour
         }
         MoveAwayFromTagger();
     }
+    
+    private void SpawnAtRandomPosition()
+    {
+        float randomX = Random.Range(spawnAreaMin.x, spawnAreaMax.x);
+        float randomZ = Random.Range(spawnAreaMin.y, spawnAreaMax.y);
+        transform.position = new Vector3(randomX, spawnHeight, randomZ);
+    }    
 
     private void MoveAwayFromTagger()
     {
-        Vector3 directionAwayFromTagger = (transform.position - TaggerAgent.position).normalized; // Distance away from the target
+        Vector3 directionAwayFromTagger = (transform.position - TaggerAgent.position).normalized;
         float distanceToTagger = Vector3.Distance(transform.position, TaggerAgent.position);
+        
         if (distanceToTagger < detectionRange)
         {
             Vector3 movementDirection = (directionAwayFromTagger + noiseDirection * noiseStrength).normalized;
-            // We don't have jumping right :D 
             movementDirection.y = 0;
-            transform.position += movementDirection * moveSpeed * Time.deltaTime;
+            Vector3 newPosition = transform.position + movementDirection * moveSpeed * Time.deltaTime;
+            
+            newPosition.x = Mathf.Clamp(newPosition.x, spawnAreaMin.x, spawnAreaMax.x);
+            newPosition.z = Mathf.Clamp(newPosition.z, spawnAreaMin.y, spawnAreaMax.y);
+            
+            transform.position = newPosition;
         }
         else
         {
-            // If tagger is outside of our view, we should just wander around. We can change this always run away but I fear that if our Runner automatically runs away
-            // Then during training they'll have too great of a distance on the Tagger 
             Vector3 lollyGaggingDirection = noiseDirection.normalized;
             lollyGaggingDirection.y = 0;
-            transform.position += lollyGaggingDirection * moveSpeed * 0.5f * Time.deltaTime;
+            
+            Vector3 newPosition = transform.position + lollyGaggingDirection * moveSpeed * 0.5f * Time.deltaTime;
+            
+            newPosition.x = Mathf.Clamp(newPosition.x, spawnAreaMin.x, spawnAreaMax.x);
+            newPosition.z = Mathf.Clamp(newPosition.z, spawnAreaMin.y, spawnAreaMax.y);
+            
+            transform.position = newPosition;
         }
     }
 
@@ -60,11 +78,27 @@ public class DefaultRunner : MonoBehaviour
             Random.Range(-1f, 1f),
             0f, 
             Random.Range(-1f, 1f)
-            );
+        );
     }
+    
     private void OnDrawGizmosSelected()
     {
+        // I want to visualise the detection range, for my own knowledge 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
+        
+        // Draw spawn area bounds
+        Gizmos.color = Color.green;
+        Vector3 center = new Vector3(
+            (spawnAreaMin.x + spawnAreaMax.x) / 2f,
+            spawnHeight,
+            (spawnAreaMin.y + spawnAreaMax.y) / 2f
+        );
+        Vector3 size = new Vector3(
+            spawnAreaMax.x - spawnAreaMin.x,
+            0.1f,
+            spawnAreaMax.y - spawnAreaMin.y
+        );
+        Gizmos.DrawWireCube(center, size);
     }
 }
