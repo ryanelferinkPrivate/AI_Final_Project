@@ -2,7 +2,7 @@
 
 Hi all, this is my first experience using GitHub with Unity, so we may run into some issues as we go.
 
-**Setting up your environment**
+### **Setting up your environment**
 
 You should first clone the repo into a directory you wish to use with Unity. You should now have a directory which has folders such as Assets, Packages, etc. Then create a default 3D Unity project through Unity Hub and set the working directory to the directory you have cloned the repo as (the one containing Assests, Packages, etc.). This should (hopefully) allow you to push and pull in that directory, updating the Unity workspace.
 
@@ -20,16 +20,19 @@ git push origin main
 
 git pull origin main
 
-**Installing ml-agents package
+### **Installing ml-agents package**
+
 Make sure you have it installed in the Package Manager: (Unity Project > Window > Package Manager > Unity Registry > Search and install ML Agents)
 
 Complete the steps below in the project directory
+```
 conda create -n mlagents python=3.10.8
 conda activate mlagents
 pip install mlagents==0.30.0
 pip install protobuf==3.20.3 --force-reinstall
 pip install six
 mlagents-learn --help
-  
+```
+
 If you run into any issues, let me know
 - Ethan
