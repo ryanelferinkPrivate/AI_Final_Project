@@ -20,5 +20,16 @@ git push origin main
 
 git pull origin main
 
+**Installing ml-agents package
+Make sure you have it installed in the Package Manager: (Unity Project > Window > Package Manager > Unity Registry > Search and install ML Agents)
+
+Complete the steps below in the project directory
+conda create -n mlagents python=3.10.8
+conda activate mlagents
+pip install mlagents==0.30.0
+pip install protobuf==3.20.3 --force-reinstall
+pip install six
+mlagents-learn --help
+  
 If you run into any issues, let me know
 - Ethan
