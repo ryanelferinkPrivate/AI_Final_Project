@@ -1,0 +1,66 @@
+{
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.11.0"
+    },
+    "RunAwayAgent": {
+        "elo": 1200.0,
+        "checkpoints": [
+            {
+                "steps": 115320,
+                "file_path": "results/Runner/RunAwayAgent/RunAwayAgent-115320.onnx",
+                "reward": -0.6354661313659054,
+                "creation_time": 1763866609.009822,
+                "auxillary_file_paths": [
+                    "results/Runner/RunAwayAgent/RunAwayAgent-115320.pt"
+                ]
+            },
+            {
+                "steps": 499978,
+                "file_path": "results/Runner/RunAwayAgent/RunAwayAgent-499978.onnx",
+                "reward": 2.309583050509294,
+                "creation_time": 1763867143.241272,
+                "auxillary_file_paths": [
+                    "results/Runner/RunAwayAgent/RunAwayAgent-499978.pt"
+                ]
+            },
+            {
+                "steps": 500042,
+                "file_path": "results/Runner/RunAwayAgent/RunAwayAgent-500042.onnx",
+                "reward": 2.309583050509294,
+                "creation_time": 1763867143.260617,
+                "auxillary_file_paths": [
+                    "results/Runner/RunAwayAgent/RunAwayAgent-500042.pt"
+                ]
+            },
+            {
+                "steps": 500042,
+                "file_path": "results/Runner/RunAwayAgent/RunAwayAgent-500042.onnx",
+                "reward": null,
+                "creation_time": 1763867315.783824,
+                "auxillary_file_paths": [
+                    "results/Runner/RunAwayAgent/RunAwayAgent-500042.pt"
+                ]
+            },
+            {
+                "steps": 500042,
+                "file_path": "results/Runner/RunAwayAgent/RunAwayAgent-500042.onnx",
+                "reward": null,
+                "creation_time": 1763867403.9257898,
+                "auxillary_file_paths": [
+                    "results/Runner/RunAwayAgent/RunAwayAgent-500042.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500042,
+            "file_path": "results/Runner/RunAwayAgent.onnx",
+            "reward": null,
+            "creation_time": 1763867403.9257898,
+            "auxillary_file_paths": [
+                "results/Runner/RunAwayAgent/RunAwayAgent-500042.pt"
+            ]
+        }
+    }
+}

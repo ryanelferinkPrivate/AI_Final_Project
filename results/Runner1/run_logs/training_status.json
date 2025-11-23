@@ -1,0 +1,51 @@
+{
+    "MoveToTarget": {
+        "checkpoints": [
+            {
+                "steps": 15534,
+                "file_path": "results/Runner1/MoveToTarget/MoveToTarget-15534.onnx",
+                "reward": -11.300000230968,
+                "creation_time": 1763862129.8831658,
+                "auxillary_file_paths": [
+                    "results/Runner1/MoveToTarget/MoveToTarget-15534.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 15534,
+            "file_path": "results/Runner1/MoveToTarget.onnx",
+            "reward": -11.300000230968,
+            "creation_time": 1763862129.8831658,
+            "auxillary_file_paths": [
+                "results/Runner1/MoveToTarget/MoveToTarget-15534.pt"
+            ]
+        }
+    },
+    "RunAway": {
+        "checkpoints": [
+            {
+                "steps": 0,
+                "file_path": "results/Runner1/RunAway/RunAway-0.onnx",
+                "reward": null,
+                "creation_time": 1763862129.907708,
+                "auxillary_file_paths": [
+                    "results/Runner1/RunAway/RunAway-0.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 0,
+            "file_path": "results/Runner1/RunAway.onnx",
+            "reward": null,
+            "creation_time": 1763862129.907708,
+            "auxillary_file_paths": [
+                "results/Runner1/RunAway/RunAway-0.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.11.0"
+    }
+}

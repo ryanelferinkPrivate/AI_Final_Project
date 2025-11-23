@@ -40,7 +40,12 @@ public class MoveToTarget : Agent
         target.position = new Vector3(Random.Range(-4f, 4f), 1.3f, Random.Range(-4f, 4f));
     }
 
-    
+        public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
+        continuousActions[0] = Input.GetAxisRaw("Horizontal");
+        continuousActions[1] = Input.GetAxisRaw("Vertical");
+    }
     
 
     private void OnCollisionEnter(Collision collision)
