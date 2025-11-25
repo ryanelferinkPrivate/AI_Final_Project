@@ -5,7 +5,7 @@ using Unity.MLAgents.Sensors;
 
 public class MoveToTarget : Agent
 {
-    [SerializeField] Transform target;
+    [SerializeField] FreezeTagManager manager;
     [SerializeField] float moveSpeed = 5f;
 
     Rigidbody rb;
@@ -29,7 +29,11 @@ public class MoveToTarget : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(transform.position);
-        sensor.AddObservation(target.position);
+        foreach (var r in manager.runners)
+        {
+            sensor.AddObservation(r.transform.position);
+            sensor.AddObservation(r.IsFrozen() ? 1f : 0f);
+        }
     }
 
     public override void OnEpisodeBegin()
@@ -37,7 +41,11 @@ public class MoveToTarget : Agent
         rb.linearVelocity = Vector3.zero;
 
         transform.position = new Vector3(0, 1.3f, 0);
-        target.position = new Vector3(Random.Range(-4f, 4f), 1.3f, Random.Range(-4f, 4f));
+        manager.Reset();
+        foreach (var r in manager.runners)
+        {
+            r.transform.position = new Vector3(Random.Range(-4f, 4f), 1.3f, Random.Range(-4f, 4f));
+        }
     }
 
         public override void Heuristic(in ActionBuffers actionsOut)
@@ -58,9 +66,16 @@ public class MoveToTarget : Agent
         
         if (collision.collider.CompareTag("Runner"))
         {
-            Debug.Log("Reached Runner: +1");
-            SetReward(+1f);
-            EndEpisode();
+            RunAwayAgent runner = collision.collider.GetComponent<RunAwayAgent>();
+            if (runner != null && !runner.IsFrozen())
+            {
+                Debug.Log("Tagged Runner: +1");
+                SetReward(+1f);
+
+                // Freeze runners through the game manager. This will also keep track of how many runners are frozen
+                manager.FreezeRunner(runner);
+                return;
+            }
         }
     }
 }

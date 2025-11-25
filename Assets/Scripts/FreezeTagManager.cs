@@ -1,0 +1,52 @@
+using UnityEngine;
+using System.Collections.Generic;
+
+public class FreezeTagManager : MonoBehaviour
+{
+    public List<RunAwayAgent> runners = new List<RunAwayAgent>();
+    public MoveToTarget tagger;
+
+
+    public bool AllRunnersFrozen()
+    {
+        foreach (var r in runners)
+        {
+            if (!r.IsFrozen())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void FreezeRunner(RunAwayAgent runner)
+    {
+        runner.Freeze();
+        if (AllRunnersFrozen())
+        {
+            Debug.Log("Tagger wins!");
+            tagger.SetReward(+100f);
+
+            tagger.EndEpisode();
+            foreach (var r in runners)
+            {
+                r.EndEpisode();
+            }
+            
+        }
+    }
+
+    public void UnfreezeRunner(RunAwayAgent runner)
+    {
+        runner.Unfreeze();
+        Debug.Log("Runner unfrozen -Manager");
+    }
+
+    public void Reset()
+    {
+        foreach (var r in runners)
+        {
+            r.Unfreeze();
+        }
+    }
+}
