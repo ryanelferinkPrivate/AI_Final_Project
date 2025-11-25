@@ -2,28 +2,38 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Policies;
 using System;
+using System.Collections;
 
 
 public class MenuManager : MonoBehaviour
 {
     public GameObject startPage;
 
-    public GameObject countdown;
+    public CountdownUI countdown;
 
     public BehaviorParameters[] agents;
+    public GameObject[] markers;
 
     public Boolean tagger;
 
-    public Boolean runner;
+    public Boolean runner1;
+
+    public Boolean runner2;
 
 
     void Start()
     {
         startPage.SetActive(true);
+        countdown.enabled = false;
         Time.timeScale = 0f;
-
-        foreach (var agent in agents)
+        int i = 0;
+        foreach (var agent in agents) {
             agent.gameObject.SetActive(false);
+            markers[i].SetActive(false);
+            i++;
+        }
+            
+
     }
 
     public void PlayAsTagger()
@@ -32,9 +42,17 @@ public class MenuManager : MonoBehaviour
         StartGame();
     }
 
-    public void PlayAsRunner()
+    public void PlayAsRunner(int runner)
     {
-        runner = true;
+        switch (runner)
+        {
+            case 1: 
+                runner1 = true;
+                break;
+            case 2: 
+                runner2 = true;
+                break;
+        }
         StartGame();
     }
 
@@ -43,20 +61,35 @@ public class MenuManager : MonoBehaviour
     {
 
         startPage.SetActive(false);
+        countdown.enabled = true;
+    
+        StartCoroutine(EnableAgentsAfterCountdown());
+}
+
+    private IEnumerator EnableAgentsAfterCountdown()
+    {
+        while (!countdown.IsFinished)
+        {
+            yield return null;
+        }
 
         Time.timeScale = 1f;
 
-        foreach (var agent in agents)
+        for (int i = 0; i < agents.Length; i++)
         {
-            agent.gameObject.SetActive(true);
-            if ((tagger && agent.gameObject.tag == "Tagger") || (runner && agent.gameObject.tag == "Runner"))
-            {
-                agent.BehaviorType = BehaviorType.HeuristicOnly;
-            } else
-            {
-                agent.BehaviorType = BehaviorType.InferenceOnly;
-            }
+            agents[i].gameObject.SetActive(true);
 
+            if ((tagger && agents[i].gameObject.CompareTag("Tagger")) ||
+                (runner1 && agents[i].gameObject.CompareTag("Runner")) ||
+                (runner2 && agents[i].gameObject.CompareTag("Runner2")))
+            {
+                agents[i].BehaviorType = BehaviorType.HeuristicOnly;
+                markers[i].SetActive(true);
+            }
+            else
+            {
+                agents[i].BehaviorType = BehaviorType.InferenceOnly;
+            }
         }
     }
 }

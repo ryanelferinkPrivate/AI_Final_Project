@@ -952,6 +952,7 @@ GameObject:
   - component: {fileID: 883816561}
   - component: {fileID: 883816560}
   - component: {fileID: 883816563}
+  - component: {fileID: 883816564}
   m_Layer: 0
   m_Name: TaggerAgent
   m_TagString: Tagger
@@ -1141,6 +1142,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &883816564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883816552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b6042bc9a5d4aa58d931eae49442e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
 --- !u!1 &891799147
 GameObject:
   m_ObjectHideFlags: 0
@@ -1615,6 +1632,7 @@ GameObject:
   - component: {fileID: 1339754248}
   - component: {fileID: 1339754249}
   - component: {fileID: 1339754250}
+  - component: {fileID: 1339754251}
   m_Layer: 0
   m_Name: RunnerAgent
   m_TagString: Runner
@@ -1804,6 +1822,22 @@ MonoBehaviour:
   DecisionPeriod: 5
   DecisionStep: 0
   TakeActionsBetweenDecisions: 1
+--- !u!114 &1339754251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339754242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b6042bc9a5d4aa58d931eae49442e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
 --- !u!1 &1443642999
 GameObject:
   m_ObjectHideFlags: 0
@@ -1820,6 +1854,7 @@ GameObject:
   - component: {fileID: 1443643002}
   - component: {fileID: 1443643001}
   - component: {fileID: 1443643000}
+  - component: {fileID: 1443643008}
   m_Layer: 0
   m_Name: RunnerAgent2
   m_TagString: Runner
@@ -2009,6 +2044,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1443643008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443642999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b6042bc9a5d4aa58d931eae49442e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
 --- !u!1 &1540728746
 GameObject:
   m_ObjectHideFlags: 0
