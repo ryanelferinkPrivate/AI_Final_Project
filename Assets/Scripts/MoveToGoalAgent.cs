@@ -50,13 +50,14 @@ public class MoveToTarget : Agent
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Wall"))
+        Collider collided = collision.collider;
+        if (collided.CompareTag("Wall"))
         {
             Debug.Log("Hit wall: -0.1");
             SetReward(-0.1f);
         }
         
-        if (collision.collider.CompareTag("Runner"))
+        if (collided.CompareTag("Runner") || collided.CompareTag("Runner2"))
         {
             Debug.Log("Reached Runner: +1");
             SetReward(+1f);
