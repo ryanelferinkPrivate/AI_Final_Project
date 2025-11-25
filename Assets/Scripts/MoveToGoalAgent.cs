@@ -60,13 +60,14 @@ public class MoveToTarget : Agent
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Wall"))
+        Collider collided = collision.collider;
+        if (collided.CompareTag("Wall"))
         {
             Debug.Log("Hit wall: -0.1");
             AddReward(-0.1f);
         }
         
-        if (collision.collider.CompareTag("Runner"))
+        if (collided.CompareTag("Runner") || collided.CompareTag("Runner2"))
         {
             RunAwayAgent runner = collision.collider.GetComponent<RunAwayAgent>();
             if (runner != null && !runner.IsFrozen())
