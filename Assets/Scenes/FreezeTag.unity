@@ -401,7 +401,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 10000
   manager: {fileID: 391521479}
-  moveSpeed: 0.2
+  moveSpeed: 0.5
   frozenMat: {fileID: 2100000, guid: fd3c3b463a841433a81b35b2f50c22b1, type: 2}
   runnerMat: {fileID: 2100000, guid: e76f4571e4591489bbb0f336044316cd, type: 2}
 --- !u!114 &572790090
@@ -428,7 +428,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 1
+  m_BehaviorType: 0
   m_BehaviorName: RunAwayAgent
   TeamId: 0
   m_UseChildSensors: 1
@@ -677,7 +677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3432059528808554, guid: bf41689f6865d4160b299f8ceb2b346f, type: 3}
       propertyPath: m_BehaviorType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2281163558711389038, guid: bf41689f6865d4160b299f8ceb2b346f, type: 3}
       propertyPath: m_Name
@@ -697,7 +697,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3061877897897894292, guid: bf41689f6865d4160b299f8ceb2b346f, type: 3}
       propertyPath: moveSpeed
-      value: 0.2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3061877897897894292, guid: bf41689f6865d4160b299f8ceb2b346f, type: 3}
       propertyPath: runnerMat
@@ -749,15 +749,15 @@ PrefabInstance:
       objectReference: {fileID: 391521479}
     - target: {fileID: 5600965000526209399, guid: bf41689f6865d4160b299f8ceb2b346f, type: 3}
       propertyPath: moveSpeed
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6222111280352221214, guid: bf41689f6865d4160b299f8ceb2b346f, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5022602860645237092, guid: 7e827dfd2760543108193bebde530d3a, type: 3}
     - target: {fileID: 6222111280352221214, guid: bf41689f6865d4160b299f8ceb2b346f, type: 3}
       propertyPath: m_BehaviorType
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6222111280352221214, guid: bf41689f6865d4160b299f8ceb2b346f, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize

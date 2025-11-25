@@ -12,28 +12,41 @@ public class RunAwayAgent : Agent
     [SerializeField] float moveSpeed = 5f;
 
     [SerializeField] Material frozenMat;
-    [SerializeField] Material runnerMat;
+    public Material runnerMat;
 
     Rigidbody rb;
     bool frozen = false;
+    bool immune;
+    Renderer rend;
 
     public override void Initialize()
     {
         rb = GetComponent<Rigidbody>();
-        Debug.Log("RB assigned? " + (rb != null));
+        rend = GetComponentInChildren<Renderer>();
+        Debug.Log($"{name} renderer is on object: {rend.gameObject.name}");
+
     }
 
 
     public override void OnEpisodeBegin()
     {
+        StartCoroutine(EnableTaggingAfterDelay());
+        Debug.Log("Runner begin");
         frozen = false;
-        var rend = GetComponent<Renderer>();
-        if (rend != null && runnerMat != null)
+        if (rend && runnerMat)
         {
             rend.material = runnerMat;
         }
 
     }
+
+    IEnumerator EnableTaggingAfterDelay()
+    {
+        immune = true;
+        yield return new WaitForSeconds(0.2f);
+        immune = false;
+    }
+
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(transform.position);
@@ -62,6 +75,20 @@ public class RunAwayAgent : Agent
         }
     }
 
+    public void ResetAgentState()
+    {
+        Debug.Log($"{name} RESET STATE");
+
+        frozen = false;
+        rb.linearVelocity = Vector3.zero;
+        transform.position = new Vector3(Random.Range(-4f, 4f), 1.3f, Random.Range(-4f, 4f));
+        if (rend && runnerMat)
+        {
+            rend.material = runnerMat;
+        }
+
+    }
+
     //Allows us to control the Tagger on our own
     public override void Heuristic(in ActionBuffers actionsOut)
     {
@@ -80,10 +107,10 @@ public class RunAwayAgent : Agent
 
         if (collision.collider.CompareTag("Tagger"))
         {
-            if (!frozen) {
+            if (!frozen && !immune) {
                 Debug.Log("Got tagged: -1");
                 AddReward(-1f);
-                this.manager.FreezeRunner(this);
+                manager.FreezeRunner(this);
                 return;
                 
             }
@@ -108,10 +135,13 @@ public class RunAwayAgent : Agent
 
     public void Freeze()
     {
+        if (immune)
+        {
+            return;
+        }
         this.frozen = true;
         Debug.Log($"{name} frozen flag set to TRUE");
         rb.linearVelocity = Vector3.zero;
-        var rend = GetComponent<Renderer>();
         if (frozenMat != null && rend != null)
         {
             rend.material = frozenMat;
@@ -121,10 +151,11 @@ public class RunAwayAgent : Agent
     public void Unfreeze()
     {
         this.frozen = false;
-        var rend = GetComponent<Renderer>();
+
         if (runnerMat != null && rend != null)
         {
             rend.material = runnerMat;
         }
+
     }
 }

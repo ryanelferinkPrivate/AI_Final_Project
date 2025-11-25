@@ -25,14 +25,14 @@ public class FreezeTagManager : MonoBehaviour
         if (AllRunnersFrozen())
         {
             Debug.Log("Tagger wins!");
-            tagger.SetReward(+100f);
+            tagger.AddReward(+100f);
 
             tagger.EndEpisode();
             foreach (var r in runners)
             {
                 r.EndEpisode();
             }
-            
+
         }
     }
 
@@ -44,9 +44,13 @@ public class FreezeTagManager : MonoBehaviour
 
     public void Reset()
     {
+        tagger.ResetAgentState();
+
         foreach (var r in runners)
         {
-            r.Unfreeze();
+            r.ResetAgentState();
         }
     }
+
+    
 }
