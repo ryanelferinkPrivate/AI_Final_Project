@@ -38,14 +38,16 @@ public class MoveToTarget : Agent
 
     public override void OnEpisodeBegin()
     {
-        rb.linearVelocity = Vector3.zero;
+        Debug.Log("Tagger begin");
+        manager.Reset();        
+    }
 
-        transform.position = new Vector3(0, 1.3f, 0);
-        manager.Reset();
-        foreach (var r in manager.runners)
-        {
-            r.transform.position = new Vector3(Random.Range(-4f, 4f), 1.3f, Random.Range(-4f, 4f));
-        }
+    public void ResetAgentState()
+    {
+        Debug.Log($"{name} RESET STATE");
+
+        rb.linearVelocity = Vector3.zero;
+        transform.position = new Vector3(Random.Range(-4f, 4f), 1.3f, Random.Range(-4f, 4f));
     }
 
         public override void Heuristic(in ActionBuffers actionsOut)
@@ -58,19 +60,20 @@ public class MoveToTarget : Agent
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Wall"))
+        Collider collided = collision.collider;
+        if (collided.CompareTag("Wall"))
         {
             Debug.Log("Hit wall: -0.1");
-            SetReward(-0.1f);
+            AddReward(-0.1f);
         }
         
-        if (collision.collider.CompareTag("Runner"))
+        if (collided.CompareTag("Runner") || collided.CompareTag("Runner2"))
         {
             RunAwayAgent runner = collision.collider.GetComponent<RunAwayAgent>();
             if (runner != null && !runner.IsFrozen())
             {
                 Debug.Log("Tagged Runner: +1");
-                SetReward(+1f);
+                AddReward(+1f);
 
                 // Freeze runners through the game manager. This will also keep track of how many runners are frozen
                 manager.FreezeRunner(runner);
