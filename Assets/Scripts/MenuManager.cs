@@ -3,92 +3,183 @@ using Unity.MLAgents;
 using Unity.MLAgents.Policies;
 using System;
 using System.Collections;
+using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Linq;
+
 
 
 public class MenuManager : MonoBehaviour
 {
     public GameObject startPage;
 
+    public GameOver endpage;
+
     public CountdownUI countdown;
 
-    public BehaviorParameters[] agents;
-    public GameObject[] markers;
+    public TimerUI timer;
 
-    public Boolean tagger;
+    public List<BehaviorParameters> runners;
+    public List<BehaviorParameters> taggers;
+    public List<GameObject> runnerMarkers;
+    public List<GameObject> taggerMarkers;
+    public List<BehaviorParameters> agents;
+    public List<GameObject> markers;
 
-    public Boolean runner1;
 
-    public Boolean runner2;
+    private string player;
+    private Boolean taggerWon;
+    private Dictionary<BehaviorParameters, GameObject> runnerToMarker;
+    private Dictionary<BehaviorParameters, GameObject> taggerToMarker;
+    private Dictionary<BehaviorParameters, GameObject> agentToMarker;
 
-
-    void Start()
+        void Awake()
     {
-        startPage.SetActive(true);
-        countdown.enabled = false;
-        Time.timeScale = 0f;
-        int i = 0;
-        foreach (var agent in agents) {
-            agent.gameObject.SetActive(false);
-            markers[i].SetActive(false);
-            i++;
-        }
-            
 
+        // Check lists are same length
+        if (runners.Count != runnerMarkers.Count)
+        {
+            Debug.LogError("Runners and Runner Markers lists must be the same length!");
+            return;
+        }
+
+        // Check lists are same length
+        if (taggers.Count != taggerMarkers.Count)
+        {
+            Debug.LogError("Taggers and Tagger Markers lists must be the same length!");
+            return;
+        }
+
+        // Zip the lists into a dictionary
+        runnerToMarker = runners.Zip(runnerMarkers, (agent, marker) => (agent, marker))
+                              .ToDictionary(x => x.agent, x => x.marker);
+
+        // Zip the lists into a dictionary
+        taggerToMarker = taggers.Zip(taggerMarkers, (agent, marker) => (agent, marker))
+                              .ToDictionary(x => x.agent, x => x.marker);
+        agentToMarker = runnerToMarker
+            .Concat(taggerToMarker)
+            .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            foreach (var kvp in agentToMarker)
+            {
+                Debug.Log($"Agent: {kvp.Key.name}, Marker: {kvp.Value.name}");
+            }
     }
 
+
+    //Starts up the menu page and disables everything else
+    void Start()
+    {
+        endpage.SetActive(false);
+        startPage.SetActive(true);
+        timer.OnDisable();
+        Time.timeScale = 0f;
+        ToggleAgents(false);
+    }
+
+    //Controls Play as Tagger button
     public void PlayAsTagger()
     {
-        tagger = true;
+        player = "Tagger";
         StartGame();
     }
 
+    //Controls Play as Runner button
     public void PlayAsRunner(int runner)
     {
         switch (runner)
         {
             case 1: 
-                runner1 = true;
+                player = "Runner";
                 break;
             case 2: 
-                runner2 = true;
+                player = "Runner2";
                 break;
         }
         StartGame();
     }
 
+    //Method to control the Restart Button
+    public void RestartGame()
+    {
+        player = "";
+        taggerWon = false;
+        Start();
+    }
 
+    //Starts up the game (including countdown)
     public void StartGame()
     {
-
         startPage.SetActive(false);
-        countdown.enabled = true;
+        endpage.SetActive(false);
     
-        StartCoroutine(EnableAgentsAfterCountdown());
-}
-
-    private IEnumerator EnableAgentsAfterCountdown()
+        StartCoroutine(Game());
+    }
+    //Controls the game; starts and ends the game
+    private IEnumerator Game()
     {
-        while (!countdown.IsFinished)
-        {
-            yield return null;
-        }
+        countdown.OnEnable();
+        //waits for initial countdown
+        yield return new WaitUntil(() => countdown.IsFinished);
 
+        //turns on the game
         Time.timeScale = 1f;
+        timer.OnEnable();
+        ToggleAgents(true);
 
-        for (int i = 0; i < agents.Length; i++)
+        //waits for timer countdown or tagger wins
+        yield return new WaitUntil(() => timer.IsFinished || AllRunnersFrozen());
+
+        //turns off the game
+        Time.timeScale = 0f; //ends the game
+        timer.OnDisable();
+        endpage.SetActive(true);
+        endpage.Winner(taggerWon);
+        ToggleAgents(false);
+    }
+
+    //checks if all runners are frozen
+    //void: changes taggerWon to true
+    private bool AllRunnersFrozen()
+    {
+        int total = runners.Count;
+        foreach (var bp in runners)
         {
-            agents[i].gameObject.SetActive(true);
-
-            if ((tagger && agents[i].gameObject.CompareTag("Tagger")) ||
-                (runner1 && agents[i].gameObject.CompareTag("Runner")) ||
-                (runner2 && agents[i].gameObject.CompareTag("Runner2")))
+            var agent = bp.GetComponent<RunAwayAgent>();
+            if (agent != null && agent.frozen)
             {
-                agents[i].BehaviorType = BehaviorType.HeuristicOnly;
-                markers[i].SetActive(true);
+                total--;
             }
-            else
+        }
+        bool won = total == 0;
+        taggerWon = won;
+        return won;
+    }
+
+    //Toggles the agents (and their markers) on or off
+    private void ToggleAgents(Boolean enable)
+    {
+        if(enable)
+        {
+            foreach(var agent in agentToMarker)
             {
-                agents[i].BehaviorType = BehaviorType.InferenceOnly;
+                agent.Key.gameObject.SetActive(true);
+                if (agent.Key.CompareTag(player))
+                {
+                    agent.Key.BehaviorType = BehaviorType.HeuristicOnly;
+                    agent.Value.SetActive(true);
+                } else
+                {
+                    agent.Key.BehaviorType = BehaviorType.InferenceOnly;
+                }
+            }
+            
+        } else
+        {
+            foreach (var item in agentToMarker) 
+            {
+                item.Key.gameObject.SetActive(false);
+                item.Value.SetActive(false);
             }
         }
     }
