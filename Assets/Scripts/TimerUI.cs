@@ -31,7 +31,13 @@ public class TimerUI : MonoBehaviour
         if (timer > 0)
         {
             timer -= Time.unscaledDeltaTime;
-            counterText.text = Mathf.Ceil(timer).ToString();
+            int timerInt = (int)Mathf.Ceil(timer);
+            int minutes = timerInt/60;
+            int seconds = timerInt%60;
+            counterText.text = (minutes >= 10 ? 
+            minutes.ToString() : "0" + minutes.ToString()) + ":" +
+            (seconds >= 10 ? 
+            seconds.ToString() : "0" + seconds.ToString());
         }
         else
         {
