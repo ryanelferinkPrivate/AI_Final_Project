@@ -51,9 +51,14 @@ public class RunAwayAgent : Agent
     {
         sensor.AddObservation(transform.position);
         sensor.AddObservation(manager.tagger.transform.position);
+        sensor.AddObservation(this.frozen ? 1f : 0f);
 
         foreach (var r in manager.runners)
         {
+            if (r == this)
+            {
+                continue;
+            }
             sensor.AddObservation(r.IsFrozen() ? 1f : 0f);
             sensor.AddObservation(r.transform.position);
         }
