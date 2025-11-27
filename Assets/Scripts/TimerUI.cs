@@ -1,21 +1,29 @@
 using UnityEngine;
 using TMPro;
 
-public class CountdownUI : MonoBehaviour
+public class TimerUI : MonoBehaviour
 {
-    public float countdownTime = 3f;
+    public float countdownTime = 10f;
     private float timer;
-    private TextMeshProUGUI counterText;
+    public TextMeshProUGUI counterText { get; private set; }
     public bool IsFinished { get; private set; } = false;
     void Awake()
     {
         counterText = GetComponent<TextMeshProUGUI>();
     }
 
-    void OnEnable()
+    public void OnEnable()
     {
+        this.enabled = true;
+        this.IsFinished = false;
         timer = countdownTime;
         counterText.gameObject.SetActive(true);
+    }
+
+    public void OnDisable()
+    {
+        this.enabled = false;
+        counterText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -27,10 +35,8 @@ public class CountdownUI : MonoBehaviour
         }
         else
         {
-            counterText.text = "GO!";
+            counterText.text = "Runners";
             IsFinished = true;
-            counterText.gameObject.SetActive(false);
-            this.enabled = false;
         }
     }
 }

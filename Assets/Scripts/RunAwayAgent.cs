@@ -15,7 +15,7 @@ public class RunAwayAgent : Agent
     public Material runnerMat;
 
     Rigidbody rb;
-    bool frozen = false;
+    public bool frozen { get; private set; } = false;
     bool immune;
     Renderer rend;
 
@@ -75,8 +75,6 @@ public class RunAwayAgent : Agent
             rb.AddForce(move, ForceMode.VelocityChange);
 
             AddReward(0.005f);
-
-            Debug.Log("Actions: " + moveX + ", " + moveZ);
         }
     }
 
@@ -98,8 +96,8 @@ public class RunAwayAgent : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
-        continuousActions[0] = Input.GetAxisRaw("Horizontal2");
-        continuousActions[1] = Input.GetAxisRaw("Vertical2");
+        continuousActions[0] = Input.GetAxisRaw("Horizontal");
+        continuousActions[1] = Input.GetAxisRaw("Vertical");
     }
 
     private void OnCollisionEnter(Collision collision)

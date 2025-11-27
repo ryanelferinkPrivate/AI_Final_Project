@@ -22,7 +22,9 @@ public class FreezeTagManager : MonoBehaviour
     public void FreezeRunner(RunAwayAgent runner)
     {
         runner.Freeze();
-        if (AllRunnersFrozen())
+
+        //UNCOMMENT FOR TRAINING
+        /* if (AllRunnersFrozen())
         {
             Debug.Log("Tagger wins!");
             tagger.AddReward(+100f);
@@ -33,7 +35,7 @@ public class FreezeTagManager : MonoBehaviour
                 r.EndEpisode();
             }
 
-        }
+        } */
     }
 
     public void UnfreezeRunner(RunAwayAgent runner)
