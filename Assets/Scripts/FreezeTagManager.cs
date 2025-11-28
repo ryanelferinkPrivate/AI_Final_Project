@@ -6,7 +6,16 @@ public class FreezeTagManager : MonoBehaviour
     public List<RunAwayAgent> runners = new List<RunAwayAgent>();
     public MoveToTarget tagger;
 
-    
+    [SerializeField] GameObject ui;
+    [SerializeField] bool toggleUi;
+
+    public void Awake()
+    {
+        if (ui != null)
+        {
+            ui.SetActive(toggleUi);
+        }
+    }
 
     public bool AllRunnersFrozen()
     {
@@ -25,6 +34,9 @@ public class FreezeTagManager : MonoBehaviour
         runner.Freeze();
 
         //UNCOMMENT FOR TRAINING
+        if (toggleUi) {
+            return;
+        }
         if (AllRunnersFrozen())
         {
             Debug.Log("Tagger wins!");
