@@ -6,6 +6,7 @@ public class FreezeTagManager : MonoBehaviour
     public List<RunAwayAgent> runners = new List<RunAwayAgent>();
     public MoveToTarget tagger;
 
+    
 
     public bool AllRunnersFrozen()
     {
@@ -24,7 +25,7 @@ public class FreezeTagManager : MonoBehaviour
         runner.Freeze();
 
         //UNCOMMENT FOR TRAINING
-        /* if (AllRunnersFrozen())
+        if (AllRunnersFrozen())
         {
             Debug.Log("Tagger wins!");
             tagger.AddReward(+100f);
@@ -35,7 +36,7 @@ public class FreezeTagManager : MonoBehaviour
                 r.EndEpisode();
             }
 
-        } */
+        }
     }
 
     public void UnfreezeRunner(RunAwayAgent runner)
