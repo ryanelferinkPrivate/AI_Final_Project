@@ -105,6 +105,7 @@ This progressive curriculum allowed agents to build skills step-by-step without 
 2. Install **Unity (version 6000.0.32f1)**  
 3. Install MLAgents
 Make sure you have it installed in the Package Manager: (Unity Project > Window > Package Manager > Unity Registry > Search and install ML Agents)
+4. Please ensure that 'Toggle Ui' within the GameManager object is checked (set to true). 
 
 Complete the steps below in the project directory to install
 ```
