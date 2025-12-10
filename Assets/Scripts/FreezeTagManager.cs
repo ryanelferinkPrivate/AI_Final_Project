@@ -15,7 +15,7 @@ public class FreezeTagManager : MonoBehaviour
     [SerializeField] GameObject ui;
 
     // controls whether ui is showing
-    [SerializeField] bool toggleUi;
+    [SerializeField] bool toggleUi = true;
 
     // toggles UI of game when unity game starts
     public void Awake()
